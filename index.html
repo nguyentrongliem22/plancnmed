@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CNMED Group - Hệ Sinh Thái Thương Mại & Media</title>
     <meta name="description" content="CNMED - Doanh nghiệp đa lĩnh vực: TMĐT, POD, Media Agency và Phân phối Y tế.">
-    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/3678/3678443.png">
+    
+    <!-- Favicon & Touch Icon -->
+    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/6180/6180153.png">
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/6180/6180153.png">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -81,6 +84,18 @@
             -webkit-text-fill-color: transparent;
         }
         
+        /* Logos styling */
+        .partner-logo {
+            filter: grayscale(100%) brightness(200%);
+            opacity: 0.5;
+            transition: all 0.3s ease;
+        }
+        .partner-logo:hover {
+            filter: grayscale(0%) brightness(100%);
+            opacity: 1;
+            transform: scale(1.1);
+        }
+        
         /* Process Steps Line Desktop */
         @media (min-width: 768px) {
             .step-line::before {
@@ -151,8 +166,8 @@
                         Hệ sinh thái
                         <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-cnmed-accent transition-all duration-300 group-hover:w-full"></span>
                     </a>
-                    <a href="#culture" class="hover:text-cnmed-accent transition-colors relative group py-2">
-                        Văn hóa
+                    <a href="#testimonials" class="hover:text-cnmed-accent transition-colors relative group py-2">
+                        Đánh giá
                         <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-cnmed-accent transition-all duration-300 group-hover:w-full"></span>
                     </a>
                     <a href="#recruitment" class="hover:text-cnmed-accent transition-colors relative group py-2">
@@ -176,7 +191,7 @@
             <div class="flex flex-col p-6 space-y-4 text-center">
                 <a href="#about" class="text-gray-300 hover:text-white hover:bg-white/5 py-3 rounded-xl transition-all" onclick="toggleMenu()">Về chúng tôi</a>
                 <a href="#ecosystem" class="text-gray-300 hover:text-white hover:bg-white/5 py-3 rounded-xl transition-all" onclick="toggleMenu()">Hệ sinh thái</a>
-                <a href="#culture" class="text-gray-300 hover:text-white hover:bg-white/5 py-3 rounded-xl transition-all" onclick="toggleMenu()">Văn hóa & Đãi ngộ</a>
+                <a href="#testimonials" class="text-gray-300 hover:text-white hover:bg-white/5 py-3 rounded-xl transition-all" onclick="toggleMenu()">Đánh giá</a>
                 <a href="#recruitment" class="text-gray-300 hover:text-white hover:bg-white/5 py-3 rounded-xl transition-all" onclick="toggleMenu()">Tuyển dụng</a>
                 <a href="#contact" class="bg-cnmed-accent text-white font-bold py-3 rounded-xl shadow-lg shadow-purple-500/20" onclick="toggleMenu()">Liên hệ ngay</a>
             </div>
@@ -235,6 +250,47 @@
                 <div data-aos="fade-up" data-aos-delay="300">
                     <div class="text-3xl md:text-4xl font-bold text-cnmed-accent mb-2">TOP</div>
                     <div class="text-xs md:text-sm text-gray-400 uppercase tracking-wider">Dịch vụ</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partners Section -->
+    <section class="py-12 md:py-16 bg-cnmed-dark/50 overflow-hidden">
+        <div class="container mx-auto px-4 md:px-6">
+            <p class="text-center text-gray-400 text-sm font-semibold uppercase tracking-widest mb-8">Đối Tác Chiến Lược & Nền Tảng</p>
+            <div class="flex flex-wrap justify-center items-center gap-8 md:gap-16">
+                <!-- Meta -->
+                <div class="w-24 md:w-32 h-12 flex items-center justify-center partner-logo" title="Meta">
+                   <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Meta_Platforms_Inc._logo.svg/1280px-Meta_Platforms_Inc._logo.svg.png" alt="Meta Logo" class="h-full object-contain">
+                </div>
+                <!-- Google -->
+                <div class="w-24 md:w-32 h-10 flex items-center justify-center partner-logo" title="Google">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/2560px-Google_2015_logo.svg.png" alt="Google Logo" class="h-full object-contain">
+                </div>
+                <!-- Tiktok -->
+                <div class="w-24 md:w-32 h-10 flex items-center justify-center partner-logo" title="Tiktok">
+                     <img src="https://upload.wikimedia.org/wikipedia/en/thumb/a/a9/TikTok_logo.svg/2560px-TikTok_logo.svg.png" alt="Tiktok Logo" class="h-full object-contain">
+                </div>
+                <!-- Shopee -->
+                <div class="w-24 md:w-32 h-12 flex items-center justify-center partner-logo" title="Shopee">
+                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Shopee.svg/2560px-Shopee.svg.png" alt="Shopee Logo" class="h-full object-contain">
+                </div>
+                <!-- Lazada -->
+                <div class="w-24 md:w-32 h-12 flex items-center justify-center partner-logo" title="Lazada">
+                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Lazada_%282019%29.svg/2560px-Lazada_%282019%29.svg.png" alt="Lazada Logo" class="h-full object-contain">
+                </div>
+                 <!-- Etsy -->
+                 <div class="w-16 md:w-24 h-10 flex items-center justify-center partner-logo" title="Etsy">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Etsy_logo.svg/2560px-Etsy_logo.svg.png" alt="Etsy Logo" class="h-full object-contain">
+               </div>
+                <!-- Amazon -->
+                <div class="w-24 md:w-32 h-10 flex items-center justify-center partner-logo" title="Amazon">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/2560px-Amazon_logo.svg.png" alt="Amazon Logo" class="h-full object-contain bg-white/10 rounded px-2">
+                </div>
+                <!-- Ebay -->
+                <div class="w-24 md:w-32 h-12 flex items-center justify-center partner-logo" title="Ebay">
+                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/EBay_logo.svg/2560px-EBay_logo.svg.png" alt="Ebay Logo" class="h-full object-contain">
                 </div>
             </div>
         </div>
@@ -402,8 +458,66 @@
         </div>
     </section>
 
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="py-16 md:py-24 bg-cnmed-dark relative">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <span class="text-cnmed-accent font-bold uppercase tracking-wider text-xs md:text-sm">Testimonials</span>
+                <h2 class="text-3xl md:text-5xl font-bold text-white mt-2 mb-4">Mọi Người Nói Gì Về CNMED?</h2>
+                <p class="text-gray-400">Niềm tin được xây dựng từ những chia sẻ chân thực nhất của Đối tác & Đội ngũ nhân sự.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="glass-card p-8 rounded-2xl relative" data-aos="fade-up" data-aos-delay="0">
+                    <i class="fa-solid fa-quote-left text-4xl text-cnmed-accent/30 absolute top-6 left-6"></i>
+                    <p class="text-gray-300 text-sm leading-relaxed mb-6 mt-8 italic">
+                        "Hợp tác với CNMED giúp doanh thu của tôi tăng trưởng vượt bậc trên nền tảng Etsy. Đội ngũ support tại Đà Nẵng cực kỳ nhiệt tình và am hiểu thị trường US."
+                    </p>
+                    <div class="flex items-center gap-4 border-t border-white/5 pt-4">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Partner" class="w-12 h-12 rounded-full border-2 border-cnmed-accent">
+                        <div>
+                            <h4 class="text-white font-bold text-sm">Anh Tuấn Minh</h4>
+                            <p class="text-xs text-gray-400">Đối tác Seller - Đà Nẵng</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 2 -->
+                <div class="glass-card p-8 rounded-2xl relative border-cnmed-accent/40 bg-cnmed-accent/5" data-aos="fade-up" data-aos-delay="100">
+                    <i class="fa-solid fa-quote-left text-4xl text-cnmed-accent/30 absolute top-6 left-6"></i>
+                    <p class="text-gray-300 text-sm leading-relaxed mb-6 mt-8 italic">
+                        "Môi trường làm việc tại CNMED rất mở, Sếp luôn lắng nghe và tạo điều kiện cho nhân sự thử nghiệm ý tưởng mới. Chế độ đãi ngộ thực sự cạnh tranh so với mặt bằng chung."
+                    </p>
+                    <div class="flex items-center gap-4 border-t border-white/5 pt-4">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Employee" class="w-12 h-12 rounded-full border-2 border-white">
+                        <div>
+                            <h4 class="text-white font-bold text-sm">Chị Lan Hương</h4>
+                            <p class="text-xs text-gray-400">Content Leader - CN Nghệ An</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 3 -->
+                <div class="glass-card p-8 rounded-2xl relative" data-aos="fade-up" data-aos-delay="200">
+                    <i class="fa-solid fa-quote-left text-4xl text-cnmed-accent/30 absolute top-6 left-6"></i>
+                    <p class="text-gray-300 text-sm leading-relaxed mb-6 mt-8 italic">
+                        "Hệ thống phân phối Y tế của CNMED tại Đồng Nai rất chuyên nghiệp, hàng hóa luôn đảm bảo chất lượng và tiến độ giao hàng nhanh chóng."
+                    </p>
+                    <div class="flex items-center gap-4 border-t border-white/5 pt-4">
+                        <img src="https://randomuser.me/api/portraits/men/86.jpg" alt="Partner" class="w-12 h-12 rounded-full border-2 border-cnmed-accent">
+                        <div>
+                            <h4 class="text-white font-bold text-sm">BS. Hoàng Nam</h4>
+                            <p class="text-xs text-gray-400">Đối tác Y Tế - Đồng Nai</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Hiring Process Section -->
-    <section class="py-16 md:py-24 bg-cnmed-dark border-t border-white/5">
+    <section class="py-16 md:py-24 bg-cnmed-dark/50 border-t border-white/5">
         <div class="container mx-auto px-4 md:px-6">
             <div class="text-center mb-12 md:mb-16" data-aos="fade-up">
                 <h2 class="text-3xl font-bold text-white mb-4">Quy Trình Tuyển Dụng</h2>
@@ -661,4 +775,3 @@
     </script>
 </body>
 </html>
-
