@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi" class="scroll-smooth">
+<html lang="vi" class="scroll-smooth dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,7 +23,15 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <script>
+        // Check theme immediately to prevent flash
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark')
+        } else {
+            document.documentElement.classList.remove('dark')
+        }
+
         tailwind.config = {
+            darkMode: 'class', // Enable manual dark mode
             theme: {
                 extend: {
                     colors: {
@@ -47,38 +55,72 @@
     </script>
     <style>
         body {
+            /* Light mode default bg */
+            background-color: #f8fafc;
+            color: #111827;
+            overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        /* Dark mode overrides */
+        .dark body {
             background-color: #05020a;
             color: #f3f4f6;
-            overflow-x: hidden;
         }
+
         /* Custom Scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
         }
         ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .dark ::-webkit-scrollbar-track {
             background: #0f0518; 
         }
         ::-webkit-scrollbar-thumb {
-            background: #4c1d95; 
+            background: #cbd5e1; 
             border-radius: 4px;
         }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #4c1d95; 
+        }
         ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+        .dark ::-webkit-scrollbar-thumb:hover {
             background: #7c3aed; 
         }
         
+        /* Glass Card - Adaptive */
         .glass-card {
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
+        .dark .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: none;
+        }
+        
         .glass-card:hover {
-            background: rgba(255, 255, 255, 0.07);
-            border-color: rgba(124, 58, 237, 0.5);
             transform: translateY(-5px);
+            border-color: rgba(124, 58, 237, 0.5);
+            box-shadow: 0 10px 30px -10px rgba(124, 58, 237, 0.15);
+        }
+        .dark .glass-card:hover {
+            background: rgba(255, 255, 255, 0.07);
             box-shadow: 0 10px 30px -10px rgba(124, 58, 237, 0.3);
         }
+
         .text-gradient {
+            background: linear-gradient(to right, #7c3aed, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .dark .text-gradient {
             background: linear-gradient(to right, #a78bfa, #c084fc);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -86,14 +128,22 @@
         
         /* Logos styling */
         .partner-logo {
-            filter: grayscale(100%) brightness(200%);
-            opacity: 0.5;
+            filter: grayscale(100%);
+            opacity: 0.6;
             transition: all 0.3s ease;
         }
         .partner-logo:hover {
-            filter: grayscale(0%) brightness(100%);
+            filter: grayscale(0%);
             opacity: 1;
             transform: scale(1.1);
+        }
+        .dark .partner-logo {
+            filter: grayscale(100%) brightness(200%);
+            opacity: 0.5;
+        }
+        .dark .partner-logo:hover {
+            filter: grayscale(0%) brightness(100%);
+            opacity: 1;
         }
         
         /* Process Steps Line Desktop */
@@ -144,20 +194,20 @@
     <!-- Navigation -->
     <nav class="fixed w-full z-50 top-0 transition-all duration-300 border-b border-transparent" id="navbar">
         <!-- Backdrop Blur Layer -->
-        <div class="absolute inset-0 bg-cnmed-dark/80 backdrop-blur-xl pointer-events-none"></div>
+        <div class="absolute inset-0 bg-white/80 dark:bg-cnmed-dark/80 backdrop-blur-xl pointer-events-none transition-colors duration-300"></div>
         
         <div class="container mx-auto px-4 md:px-6 relative">
             <div class="flex justify-between items-center h-16 md:h-20">
                 <!-- Logo -->
-                <a href="#" class="group text-2xl md:text-3xl font-extrabold tracking-tighter text-white flex items-center gap-2 z-50 relative">
-                    <span class="bg-cnmed-accent w-8 h-8 md:w-10 md:h-10 rounded-lg flex items-center justify-center text-white shadow-lg shadow-purple-900/50 group-hover:bg-white group-hover:text-cnmed-accent transition-colors duration-300">
+                <a href="#" class="group text-2xl md:text-3xl font-extrabold tracking-tighter text-gray-900 dark:text-white flex items-center gap-2 z-50 relative">
+                    <span class="bg-cnmed-accent w-8 h-8 md:w-10 md:h-10 rounded-lg flex items-center justify-center text-white shadow-lg shadow-purple-500/30 dark:shadow-purple-900/50 group-hover:bg-gray-900 dark:group-hover:bg-white group-hover:text-cnmed-accent transition-colors duration-300">
                         <i class="fa-solid fa-cube"></i>
                     </span>
                     CNMED
                 </a>
 
                 <!-- Desktop Menu -->
-                <div class="hidden md:flex space-x-8 text-sm font-semibold uppercase tracking-wide text-gray-300 items-center">
+                <div class="hidden md:flex space-x-8 text-sm font-semibold uppercase tracking-wide text-gray-600 dark:text-gray-300 items-center">
                     <a href="#about" class="hover:text-cnmed-accent transition-colors relative group py-2">
                         Về chúng tôi
                         <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-cnmed-accent transition-all duration-300 group-hover:w-full"></span>
@@ -174,25 +224,40 @@
                         Tuyển dụng
                         <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-cnmed-accent transition-all duration-300 group-hover:w-full"></span>
                     </a>
-                    <a href="#contact" class="px-6 py-2.5 bg-cnmed-accent hover:bg-white hover:text-cnmed-primary text-white rounded-full transition-all shadow-lg shadow-purple-900/30 transform hover:-translate-y-0.5 font-bold">
+                    
+                    <!-- Theme Toggle Button -->
+                    <button id="theme-toggle" class="w-10 h-10 rounded-full bg-gray-200 dark:bg-white/10 text-gray-800 dark:text-yellow-400 hover:bg-gray-300 dark:hover:bg-white/20 transition-all flex items-center justify-center focus:outline-none" aria-label="Toggle Dark Mode">
+                        <i class="fa-solid fa-sun hidden dark:block"></i>
+                        <i class="fa-solid fa-moon block dark:hidden"></i>
+                    </button>
+
+                    <a href="#contact" class="px-6 py-2.5 bg-cnmed-accent hover:bg-gray-900 dark:hover:bg-white hover:text-white dark:hover:text-cnmed-primary text-white rounded-full transition-all shadow-lg shadow-purple-500/30 dark:shadow-purple-900/30 transform hover:-translate-y-0.5 font-bold">
                         Liên hệ
                     </a>
                 </div>
 
-                <!-- Mobile Menu Button -->
-                <button id="mobile-menu-btn" class="md:hidden text-2xl text-white focus:outline-none p-2 z-50 relative" aria-label="Menu">
-                    <i class="fa-solid fa-bars transition-transform duration-300"></i>
-                </button>
+                <!-- Mobile Buttons (Theme + Menu) -->
+                <div class="flex items-center gap-4 md:hidden z-50 relative">
+                     <!-- Mobile Theme Toggle -->
+                    <button id="mobile-theme-toggle" class="text-xl text-gray-800 dark:text-yellow-400 focus:outline-none">
+                        <i class="fa-solid fa-sun hidden dark:block"></i>
+                        <i class="fa-solid fa-moon block dark:hidden"></i>
+                    </button>
+
+                    <button id="mobile-menu-btn" class="text-2xl text-gray-900 dark:text-white focus:outline-none p-1" aria-label="Menu">
+                        <i class="fa-solid fa-bars transition-transform duration-300"></i>
+                    </button>
+                </div>
             </div>
         </div>
 
         <!-- Mobile Menu Panel -->
-        <div id="mobile-menu" class="hidden fixed inset-x-0 top-16 bg-cnmed-dark/95 backdrop-blur-xl border-b border-white/10 shadow-2xl z-40 overflow-hidden">
+        <div id="mobile-menu" class="hidden fixed inset-x-0 top-16 bg-white/95 dark:bg-cnmed-dark/95 backdrop-blur-xl border-b border-gray-200 dark:border-white/10 shadow-2xl z-40 overflow-hidden">
             <div class="flex flex-col p-6 space-y-4 text-center">
-                <a href="#about" class="text-gray-300 hover:text-white hover:bg-white/5 py-3 rounded-xl transition-all" onclick="toggleMenu()">Về chúng tôi</a>
-                <a href="#ecosystem" class="text-gray-300 hover:text-white hover:bg-white/5 py-3 rounded-xl transition-all" onclick="toggleMenu()">Hệ sinh thái</a>
-                <a href="#testimonials" class="text-gray-300 hover:text-white hover:bg-white/5 py-3 rounded-xl transition-all" onclick="toggleMenu()">Đánh giá</a>
-                <a href="#recruitment" class="text-gray-300 hover:text-white hover:bg-white/5 py-3 rounded-xl transition-all" onclick="toggleMenu()">Tuyển dụng</a>
+                <a href="#about" class="text-gray-700 dark:text-gray-300 hover:text-cnmed-accent dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/5 py-3 rounded-xl transition-all" onclick="toggleMenu()">Về chúng tôi</a>
+                <a href="#ecosystem" class="text-gray-700 dark:text-gray-300 hover:text-cnmed-accent dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/5 py-3 rounded-xl transition-all" onclick="toggleMenu()">Hệ sinh thái</a>
+                <a href="#testimonials" class="text-gray-700 dark:text-gray-300 hover:text-cnmed-accent dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/5 py-3 rounded-xl transition-all" onclick="toggleMenu()">Đánh giá</a>
+                <a href="#recruitment" class="text-gray-700 dark:text-gray-300 hover:text-cnmed-accent dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/5 py-3 rounded-xl transition-all" onclick="toggleMenu()">Tuyển dụng</a>
                 <a href="#contact" class="bg-cnmed-accent text-white font-bold py-3 rounded-xl shadow-lg shadow-purple-500/20" onclick="toggleMenu()">Liên hệ ngay</a>
             </div>
         </div>
@@ -202,29 +267,29 @@
     <header class="relative pt-32 pb-12 md:pt-48 md:pb-32 overflow-hidden">
         <!-- Background Effects -->
         <div class="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
-            <div class="absolute top-[-10%] left-[-10%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-purple-900/30 rounded-full blur-[80px] md:blur-[120px] animate-pulse"></div>
-            <div class="absolute bottom-[-10%] right-[-10%] w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-indigo-900/20 rounded-full blur-[80px] md:blur-[120px]"></div>
+            <div class="absolute top-[-10%] left-[-10%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-purple-500/10 dark:bg-purple-900/30 rounded-full blur-[80px] md:blur-[120px] animate-pulse"></div>
+            <div class="absolute bottom-[-10%] right-[-10%] w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-indigo-500/10 dark:bg-indigo-900/20 rounded-full blur-[80px] md:blur-[120px]"></div>
         </div>
 
         <div class="container mx-auto px-4 md:px-6 text-center">
             <div data-aos="fade-up" data-aos-duration="1000">
-                <div class="inline-flex items-center gap-2 py-1.5 px-4 rounded-full bg-white/5 border border-white/10 text-cnmed-light text-xs md:text-sm mb-6 backdrop-blur-md hover:bg-white/10 transition-colors cursor-default">
-                    <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+                <div class="inline-flex items-center gap-2 py-1.5 px-4 rounded-full bg-gray-200/50 dark:bg-white/5 border border-gray-300 dark:border-white/10 text-gray-700 dark:text-cnmed-light text-xs md:text-sm mb-6 backdrop-blur-md hover:bg-gray-200 dark:hover:bg-white/10 transition-colors cursor-default">
+                    <span class="w-2 h-2 rounded-full bg-green-500 dark:bg-green-400 animate-pulse"></span>
                     Thành lập từ năm 2024
                 </div>
-                <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white mb-6 leading-tight tracking-tight">
+                <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold text-gray-900 dark:text-white mb-6 leading-tight tracking-tight">
                     Kiến Tạo Giá Trị <br class="hidden md:block">
                     <span class="text-gradient block md:inline mt-2 md:mt-0">Thương Mại Đa Nền Tảng</span>
                 </h1>
-                <p class="text-base md:text-xl text-gray-400 max-w-2xl mx-auto mb-10 px-4 leading-relaxed">
+                <p class="text-base md:text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-10 px-4 leading-relaxed">
                     Từ sàn thương mại điện tử trong nước đến thị trường quốc tế, CNMED cung cấp giải pháp toàn diện về bán lẻ, sản xuất media và phân phối y tế.
                 </p>
                 <div class="flex flex-col sm:flex-row justify-center gap-4 px-8 sm:px-0">
-                    <a href="#ecosystem" class="px-8 py-4 bg-cnmed-accent hover:bg-white hover:text-cnmed-primary text-white font-bold rounded-xl shadow-lg shadow-purple-900/40 transition-all transform hover:-translate-y-1 text-center">
+                    <a href="#ecosystem" class="px-8 py-4 bg-cnmed-accent hover:bg-gray-900 dark:hover:bg-white hover:text-white dark:hover:text-cnmed-primary text-white font-bold rounded-xl shadow-lg shadow-purple-500/30 dark:shadow-purple-900/40 transition-all transform hover:-translate-y-1 text-center">
                         Khám phá hệ sinh thái
                     </a>
-                    <a href="https://www.facebook.com/profile.php?id=61551435188303" target="_blank" class="px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold rounded-xl backdrop-blur-sm transition-all flex items-center justify-center gap-2 group">
-                        <i class="fa-brands fa-facebook group-hover:text-blue-400 transition-colors"></i> Fanpage
+                    <a href="https://www.facebook.com/profile.php?id=61551435188303" target="_blank" class="px-8 py-4 bg-white/50 dark:bg-white/5 hover:bg-gray-200 dark:hover:bg-white/10 border border-gray-300 dark:border-white/10 text-gray-900 dark:text-white font-bold rounded-xl backdrop-blur-sm transition-all flex items-center justify-center gap-2 group">
+                        <i class="fa-brands fa-facebook group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors"></i> Fanpage
                     </a>
                 </div>
             </div>
@@ -232,33 +297,33 @@
     </header>
 
     <!-- About Stats Section -->
-    <section id="about" class="py-12 border-y border-white/5 bg-white/[0.02]">
+    <section id="about" class="py-12 border-y border-gray-200 dark:border-white/5 bg-gray-50/50 dark:bg-white/[0.02]">
         <div class="container mx-auto px-4 md:px-6">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-y-8 gap-x-4 text-center divide-x-0 md:divide-x divide-white/5">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-y-8 gap-x-4 text-center divide-x-0 md:divide-x divide-gray-200 dark:divide-white/5">
                 <div data-aos="fade-up" data-aos-delay="0">
-                    <div class="text-3xl md:text-4xl font-bold text-white mb-2">2024</div>
-                    <div class="text-xs md:text-sm text-gray-400 uppercase tracking-wider">Năm thành lập</div>
+                    <div class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">2024</div>
+                    <div class="text-xs md:text-sm text-gray-500 dark:text-gray-400 uppercase tracking-wider">Năm thành lập</div>
                 </div>
                 <div data-aos="fade-up" data-aos-delay="100">
                     <div class="text-3xl md:text-4xl font-bold text-cnmed-accent mb-2">4</div>
-                    <div class="text-xs md:text-sm text-gray-400 uppercase tracking-wider">Chi nhánh</div>
+                    <div class="text-xs md:text-sm text-gray-500 dark:text-gray-400 uppercase tracking-wider">Chi nhánh</div>
                 </div>
                 <div data-aos="fade-up" data-aos-delay="200">
-                    <div class="text-3xl md:text-4xl font-bold text-white mb-2">Global</div>
-                    <div class="text-xs md:text-sm text-gray-400 uppercase tracking-wider">Thị trường</div>
+                    <div class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">Global</div>
+                    <div class="text-xs md:text-sm text-gray-500 dark:text-gray-400 uppercase tracking-wider">Thị trường</div>
                 </div>
                 <div data-aos="fade-up" data-aos-delay="300">
                     <div class="text-3xl md:text-4xl font-bold text-cnmed-accent mb-2">TOP</div>
-                    <div class="text-xs md:text-sm text-gray-400 uppercase tracking-wider">Dịch vụ</div>
+                    <div class="text-xs md:text-sm text-gray-500 dark:text-gray-400 uppercase tracking-wider">Dịch vụ</div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Partners Section -->
-    <section class="py-12 md:py-16 bg-cnmed-dark/50 overflow-hidden">
+    <section class="py-12 md:py-16 bg-gray-100 dark:bg-cnmed-dark/50 overflow-hidden transition-colors duration-300">
         <div class="container mx-auto px-4 md:px-6">
-            <p class="text-center text-gray-400 text-sm font-semibold uppercase tracking-widest mb-8">Đối Tác Chiến Lược & Nền Tảng</p>
+            <p class="text-center text-gray-500 dark:text-gray-400 text-sm font-semibold uppercase tracking-widest mb-8">Đối Tác Chiến Lược & Nền Tảng</p>
             <div class="flex flex-wrap justify-center items-center gap-8 md:gap-16">
                 <!-- Meta -->
                 <div class="w-24 md:w-32 h-12 flex items-center justify-center partner-logo" title="Meta">
@@ -286,7 +351,7 @@
                </div>
                 <!-- Amazon -->
                 <div class="w-24 md:w-32 h-10 flex items-center justify-center partner-logo" title="Amazon">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/2560px-Amazon_logo.svg.png" alt="Amazon Logo" class="h-full object-contain bg-white/10 rounded px-2">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/2560px-Amazon_logo.svg.png" alt="Amazon Logo" class="h-full object-contain bg-black dark:bg-white/10 rounded px-2">
                 </div>
                 <!-- Ebay -->
                 <div class="w-24 md:w-32 h-12 flex items-center justify-center partner-logo" title="Ebay">
@@ -301,40 +366,40 @@
         <div class="container mx-auto px-4 md:px-6">
             <div class="text-center mb-12 md:mb-16" data-aos="fade-up">
                 <span class="text-cnmed-accent font-bold uppercase tracking-wider text-xs md:text-sm mb-2 block">Our Locations</span>
-                <h2 class="text-3xl md:text-5xl font-bold text-white mb-4">Mạng Lưới Chi Nhánh</h2>
-                <p class="text-gray-400 max-w-2xl mx-auto">CNMED hoạt động đa lĩnh vực với các trụ sở chuyên biệt được tối ưu hóa cho từng thị trường mục tiêu.</p>
+                <h2 class="text-3xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">Mạng Lưới Chi Nhánh</h2>
+                <p class="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">CNMED hoạt động đa lĩnh vực với các trụ sở chuyên biệt được tối ưu hóa cho từng thị trường mục tiêu.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <!-- Hanoi -->
                 <div class="glass-card rounded-2xl p-6 md:p-8 relative overflow-hidden group flex flex-col h-full" data-aos="fade-up" data-aos-delay="0">
                     <div class="absolute top-0 right-0 w-32 h-32 bg-red-500/10 rounded-bl-full -mr-8 -mt-8 transition-all group-hover:scale-110 duration-500"></div>
-                    <div class="w-14 h-14 bg-gray-800/50 rounded-xl flex items-center justify-center text-red-400 text-2xl mb-6 shadow-lg relative z-10 border border-white/5">
+                    <div class="w-14 h-14 bg-gray-100 dark:bg-gray-800/50 rounded-xl flex items-center justify-center text-red-500 dark:text-red-400 text-2xl mb-6 shadow-lg relative z-10 border border-gray-200 dark:border-white/5">
                         <i class="fa-solid fa-building-columns"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-white mb-2">Hà Nội <span class="text-xs bg-red-500/20 text-red-300 px-2 py-0.5 rounded ml-2 font-normal align-middle">HQ</span></h3>
-                    <p class="text-sm text-gray-400 mb-6 flex items-start"><i class="fa-solid fa-location-dot mt-1 mr-2 text-cnmed-accent"></i>100 Nguyễn Trãi</p>
-                    <div class="mt-auto bg-white/5 p-4 rounded-xl border border-white/5 backdrop-blur-sm hover:bg-white/10 transition-colors">
-                        <span class="block text-cnmed-light font-semibold mb-2 text-sm border-b border-white/10 pb-2">Thị trường Việt Nam</span>
-                        <p class="text-gray-400 text-xs leading-relaxed">
-                            <i class="fa-solid fa-check text-green-500 mr-1"></i> Tiktok Shop VN<br>
-                            <i class="fa-solid fa-check text-green-500 mr-1"></i> Shopee<br>
-                            <i class="fa-solid fa-check text-green-500 mr-1"></i> Lazada
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Hà Nội <span class="text-xs bg-red-500/10 text-red-500 dark:text-red-300 px-2 py-0.5 rounded ml-2 font-normal align-middle">HQ</span></h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-6 flex items-start"><i class="fa-solid fa-location-dot mt-1 mr-2 text-cnmed-accent"></i>100 Nguyễn Trãi</p>
+                    <div class="mt-auto bg-gray-50 dark:bg-white/5 p-4 rounded-xl border border-gray-200 dark:border-white/5 backdrop-blur-sm hover:bg-gray-100 dark:hover:bg-white/10 transition-colors">
+                        <span class="block text-gray-800 dark:text-cnmed-light font-semibold mb-2 text-sm border-b border-gray-200 dark:border-white/10 pb-2">Thị trường Việt Nam</span>
+                        <p class="text-gray-600 dark:text-gray-400 text-xs leading-relaxed">
+                            <i class="fa-solid fa-check text-green-600 dark:text-green-500 mr-1"></i> Tiktok Shop VN<br>
+                            <i class="fa-solid fa-check text-green-600 dark:text-green-500 mr-1"></i> Shopee<br>
+                            <i class="fa-solid fa-check text-green-600 dark:text-green-500 mr-1"></i> Lazada
                         </p>
                     </div>
                 </div>
 
                 <!-- Da Nang -->
-                <div class="glass-card rounded-2xl p-6 md:p-8 relative overflow-hidden group flex flex-col h-full border-cnmed-accent/30 ring-1 ring-cnmed-accent/20" data-aos="fade-up" data-aos-delay="100">
+                <div class="glass-card rounded-2xl p-6 md:p-8 relative overflow-hidden group flex flex-col h-full border-cnmed-accent/20 ring-1 ring-cnmed-accent/10 dark:ring-cnmed-accent/20" data-aos="fade-up" data-aos-delay="100">
                     <div class="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 rounded-bl-full -mr-8 -mt-8 transition-all group-hover:scale-110 duration-500"></div>
-                    <div class="w-14 h-14 bg-cnmed-primary rounded-xl flex items-center justify-center text-white text-2xl mb-6 shadow-lg shadow-purple-900/40 relative z-10 border border-white/10">
+                    <div class="w-14 h-14 bg-cnmed-primary rounded-xl flex items-center justify-center text-white text-2xl mb-6 shadow-lg shadow-purple-500/20 dark:shadow-purple-900/40 relative z-10 border border-white/10">
                         <i class="fa-solid fa-earth-americas"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-white mb-2">Đà Nẵng</h3>
-                    <p class="text-sm text-gray-400 mb-6 flex items-start"><i class="fa-solid fa-location-dot mt-1 mr-2 text-cnmed-accent"></i>222 Nguyễn Hữu Thọ</p>
-                    <div class="mt-auto bg-cnmed-primary/30 p-4 rounded-xl border border-cnmed-accent/20 backdrop-blur-sm hover:bg-cnmed-primary/40 transition-colors">
-                        <span class="block text-white font-semibold mb-2 text-sm border-b border-white/10 pb-2">Thị trường Quốc Tế (US)</span>
-                        <p class="text-gray-300 text-xs leading-relaxed">
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Đà Nẵng</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-6 flex items-start"><i class="fa-solid fa-location-dot mt-1 mr-2 text-cnmed-accent"></i>222 Nguyễn Hữu Thọ</p>
+                    <div class="mt-auto bg-cnmed-primary/10 dark:bg-cnmed-primary/30 p-4 rounded-xl border border-cnmed-accent/10 dark:border-cnmed-accent/20 backdrop-blur-sm hover:bg-cnmed-primary/20 dark:hover:bg-cnmed-primary/40 transition-colors">
+                        <span class="block text-gray-900 dark:text-white font-semibold mb-2 text-sm border-b border-gray-200 dark:border-white/10 pb-2">Thị trường Quốc Tế (US)</span>
+                        <p class="text-gray-700 dark:text-gray-300 text-xs leading-relaxed">
                             Print On Demand (POD) trên các nền tảng lớn: Etsy, Amazon, Ebay, Tiktok Shop US.
                         </p>
                     </div>
@@ -343,14 +408,14 @@
                 <!-- Nghe An -->
                 <div class="glass-card rounded-2xl p-6 md:p-8 relative overflow-hidden group flex flex-col h-full" data-aos="fade-up" data-aos-delay="200">
                     <div class="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-bl-full -mr-8 -mt-8 transition-all group-hover:scale-110 duration-500"></div>
-                    <div class="w-14 h-14 bg-gray-800/50 rounded-xl flex items-center justify-center text-blue-400 text-2xl mb-6 shadow-lg relative z-10 border border-white/5">
+                    <div class="w-14 h-14 bg-gray-100 dark:bg-gray-800/50 rounded-xl flex items-center justify-center text-blue-500 dark:text-blue-400 text-2xl mb-6 shadow-lg relative z-10 border border-gray-200 dark:border-white/5">
                         <i class="fa-solid fa-pen-nib"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-white mb-2">Nghệ An</h3>
-                    <p class="text-sm text-gray-400 mb-6 flex items-start"><i class="fa-solid fa-location-dot mt-1 mr-2 text-cnmed-accent"></i>298 Nguyễn Văn Cừ, TP. Vinh</p>
-                    <div class="mt-auto bg-white/5 p-4 rounded-xl border border-white/5 backdrop-blur-sm hover:bg-white/10 transition-colors">
-                        <span class="block text-cnmed-light font-semibold mb-2 text-sm border-b border-white/10 pb-2">Media Agency</span>
-                        <p class="text-gray-400 text-xs leading-relaxed">
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Nghệ An</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-6 flex items-start"><i class="fa-solid fa-location-dot mt-1 mr-2 text-cnmed-accent"></i>298 Nguyễn Văn Cừ, TP. Vinh</p>
+                    <div class="mt-auto bg-gray-50 dark:bg-white/5 p-4 rounded-xl border border-gray-200 dark:border-white/5 backdrop-blur-sm hover:bg-gray-100 dark:hover:bg-white/10 transition-colors">
+                        <span class="block text-gray-800 dark:text-cnmed-light font-semibold mb-2 text-sm border-b border-gray-200 dark:border-white/10 pb-2">Media Agency</span>
+                        <p class="text-gray-600 dark:text-gray-400 text-xs leading-relaxed">
                             Sản xuất nội dung sáng tạo, thiết kế branding, ấn phẩm truyền thông chuyên nghiệp.
                         </p>
                     </div>
@@ -359,14 +424,14 @@
                 <!-- Dong Nai -->
                 <div class="glass-card rounded-2xl p-6 md:p-8 relative overflow-hidden group flex flex-col h-full" data-aos="fade-up" data-aos-delay="300">
                     <div class="absolute top-0 right-0 w-32 h-32 bg-teal-500/10 rounded-bl-full -mr-8 -mt-8 transition-all group-hover:scale-110 duration-500"></div>
-                    <div class="w-14 h-14 bg-gray-800/50 rounded-xl flex items-center justify-center text-teal-400 text-2xl mb-6 shadow-lg relative z-10 border border-white/5">
+                    <div class="w-14 h-14 bg-gray-100 dark:bg-gray-800/50 rounded-xl flex items-center justify-center text-teal-500 dark:text-teal-400 text-2xl mb-6 shadow-lg relative z-10 border border-gray-200 dark:border-white/5">
                         <i class="fa-solid fa-heart-pulse"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-white mb-2">Đồng Nai</h3>
-                    <p class="text-sm text-gray-400 mb-6 flex items-start"><i class="fa-solid fa-location-dot mt-1 mr-2 text-cnmed-accent"></i>938 Trần Cao Vân</p>
-                    <div class="mt-auto bg-white/5 p-4 rounded-xl border border-white/5 backdrop-blur-sm hover:bg-white/10 transition-colors">
-                        <span class="block text-cnmed-light font-semibold mb-2 text-sm border-b border-white/10 pb-2">Phân Phối Y Tế</span>
-                        <p class="text-gray-400 text-xs leading-relaxed">
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Đồng Nai</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-6 flex items-start"><i class="fa-solid fa-location-dot mt-1 mr-2 text-cnmed-accent"></i>938 Trần Cao Vân</p>
+                    <div class="mt-auto bg-gray-50 dark:bg-white/5 p-4 rounded-xl border border-gray-200 dark:border-white/5 backdrop-blur-sm hover:bg-gray-100 dark:hover:bg-white/10 transition-colors">
+                        <span class="block text-gray-800 dark:text-cnmed-light font-semibold mb-2 text-sm border-b border-gray-200 dark:border-white/10 pb-2">Phân Phối Y Tế</span>
+                        <p class="text-gray-600 dark:text-gray-400 text-xs leading-relaxed">
                             Hệ thống chuỗi bán lẻ và phân phối các sản phẩm thiết bị Y Tế chính hãng.
                         </p>
                     </div>
@@ -376,80 +441,80 @@
     </section>
 
     <!-- Culture & Environment Section -->
-    <section id="culture" class="py-16 md:py-24 bg-gradient-to-b from-cnmed-dark to-cnmed-primary/10 relative overflow-hidden">
+    <section id="culture" class="py-16 md:py-24 bg-gradient-to-b from-gray-50 to-purple-50 dark:from-cnmed-dark dark:to-cnmed-primary/10 relative overflow-hidden transition-colors duration-300">
         <div class="container mx-auto px-4 md:px-6 relative z-10">
             <!-- Header -->
             <div class="text-center mb-12 md:mb-16" data-aos="fade-up">
                 <span class="text-cnmed-accent font-bold uppercase tracking-wider text-xs md:text-sm">Life at CNMED</span>
-                <h2 class="text-3xl md:text-5xl font-bold text-white mt-2 mb-4">Văn Hóa & Con Người</h2>
-                <p class="text-gray-400 max-w-2xl mx-auto">Chúng tôi xây dựng một môi trường làm việc nơi sáng tạo được khuyến khích và nỗ lực được ghi nhận xứng đáng.</p>
+                <h2 class="text-3xl md:text-5xl font-bold text-gray-900 dark:text-white mt-2 mb-4">Văn Hóa & Con Người</h2>
+                <p class="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">Chúng tôi xây dựng một môi trường làm việc nơi sáng tạo được khuyến khích và nỗ lực được ghi nhận xứng đáng.</p>
             </div>
 
             <!-- Culture Cards -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-16 md:mb-20">
-                <div class="glass-card p-8 rounded-2xl text-center hover:bg-white/5" data-aos="fade-up" data-aos-delay="0">
-                    <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white text-2xl mx-auto mb-6 shadow-lg ring-4 ring-white/5">
+                <div class="glass-card p-8 rounded-2xl text-center hover:bg-gray-50 dark:hover:bg-white/5" data-aos="fade-up" data-aos-delay="0">
+                    <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white text-2xl mx-auto mb-6 shadow-lg ring-4 ring-purple-100 dark:ring-white/5">
                         <i class="fa-solid fa-rocket"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-white mb-3">Tốc độ & Hiệu quả</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">Thích ứng nhanh với thị trường, đặc biệt là trong lĩnh vực E-commerce và Media luôn biến đổi từng giờ.</p>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Tốc độ & Hiệu quả</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">Thích ứng nhanh với thị trường, đặc biệt là trong lĩnh vực E-commerce và Media luôn biến đổi từng giờ.</p>
                 </div>
                 <div class="glass-card p-8 rounded-2xl text-center border-cnmed-accent/40 bg-cnmed-accent/5" data-aos="fade-up" data-aos-delay="100">
-                    <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full flex items-center justify-center text-white text-2xl mx-auto mb-6 shadow-lg ring-4 ring-white/5">
+                    <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full flex items-center justify-center text-white text-2xl mx-auto mb-6 shadow-lg ring-4 ring-blue-100 dark:ring-white/5">
                         <i class="fa-solid fa-users-viewfinder"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-white mb-3">Sáng tạo không giới hạn</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">Môi trường mở (Open Office) cho các Designer và Creator thỏa sức sáng tạo các sản phẩm POD và Media ấn tượng.</p>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Sáng tạo không giới hạn</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">Môi trường mở (Open Office) cho các Designer và Creator thỏa sức sáng tạo các sản phẩm POD và Media ấn tượng.</p>
                 </div>
-                <div class="glass-card p-8 rounded-2xl text-center hover:bg-white/5" data-aos="fade-up" data-aos-delay="200">
-                    <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-500 rounded-full flex items-center justify-center text-white text-2xl mx-auto mb-6 shadow-lg ring-4 ring-white/5">
+                <div class="glass-card p-8 rounded-2xl text-center hover:bg-gray-50 dark:hover:bg-white/5" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-500 rounded-full flex items-center justify-center text-white text-2xl mx-auto mb-6 shadow-lg ring-4 ring-green-100 dark:ring-white/5">
                         <i class="fa-solid fa-hand-holding-heart"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-white mb-3">Phát triển bền vững</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">Chú trọng đào tạo nội bộ, xây dựng lộ trình thăng tiến rõ ràng (Career Path) cho từng nhân sự.</p>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Phát triển bền vững</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">Chú trọng đào tạo nội bộ, xây dựng lộ trình thăng tiến rõ ràng (Career Path) cho từng nhân sự.</p>
                 </div>
             </div>
 
             <!-- Benefits Grid -->
-            <div class="bg-white/5 border border-white/5 rounded-3xl p-6 md:p-12 backdrop-blur-md overflow-hidden relative">
+            <div class="bg-white/50 dark:bg-white/5 border border-white/20 dark:border-white/5 rounded-3xl p-6 md:p-12 backdrop-blur-md overflow-hidden relative shadow-xl dark:shadow-none">
                 <!-- Decorative Circle -->
                 <div class="absolute -top-24 -right-24 w-64 h-64 bg-cnmed-accent/10 rounded-full blur-3xl"></div>
                 
                 <div class="flex flex-col md:flex-row gap-8 md:gap-16 items-center relative z-10">
                     <div class="md:w-1/3 text-center md:text-left" data-aos="fade-right">
-                        <h3 class="text-3xl font-bold text-white mb-4">Chế độ đãi ngộ <br><span class="text-gradient">Hấp dẫn</span></h3>
-                        <p class="text-gray-400 mb-6 text-sm md:text-base">Tại CNMED, con người là tài sản lớn nhất. Chúng tôi cam kết mang lại phúc lợi tốt nhất để bạn yên tâm cống hiến.</p>
-                        <a href="#recruitment" class="inline-flex items-center gap-2 px-6 py-3 bg-cnmed-accent/20 hover:bg-cnmed-accent text-cnmed-accent hover:text-white rounded-lg transition-all font-semibold text-sm">
+                        <h3 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">Chế độ đãi ngộ <br><span class="text-gradient">Hấp dẫn</span></h3>
+                        <p class="text-gray-600 dark:text-gray-400 mb-6 text-sm md:text-base">Tại CNMED, con người là tài sản lớn nhất. Chúng tôi cam kết mang lại phúc lợi tốt nhất để bạn yên tâm cống hiến.</p>
+                        <a href="#recruitment" class="inline-flex items-center gap-2 px-6 py-3 bg-cnmed-accent/10 dark:bg-cnmed-accent/20 hover:bg-cnmed-accent text-cnmed-accent hover:text-white rounded-lg transition-all font-semibold text-sm">
                             Xem vị trí đang tuyển <i class="fa-solid fa-arrow-right"></i>
                         </a>
                     </div>
                     <div class="md:w-2/3 grid grid-cols-1 sm:grid-cols-2 gap-6 w-full" data-aos="fade-left">
-                        <div class="flex items-start gap-4 p-4 rounded-xl hover:bg-white/5 transition-colors">
-                            <div class="w-12 h-12 rounded-xl bg-yellow-500/20 text-yellow-400 flex items-center justify-center shrink-0 text-lg"><i class="fa-solid fa-coins"></i></div>
+                        <div class="flex items-start gap-4 p-4 rounded-xl hover:bg-white/40 dark:hover:bg-white/5 transition-colors">
+                            <div class="w-12 h-12 rounded-xl bg-yellow-500/10 dark:bg-yellow-500/20 text-yellow-600 dark:text-yellow-400 flex items-center justify-center shrink-0 text-lg"><i class="fa-solid fa-coins"></i></div>
                             <div>
-                                <h4 class="text-white font-bold mb-1">Thu nhập cạnh tranh</h4>
-                                <p class="text-xs text-gray-400 leading-relaxed">Lương cứng + Thưởng KPI + Thưởng nóng theo dự án/doanh số hàng tháng.</p>
+                                <h4 class="text-gray-900 dark:text-white font-bold mb-1">Thu nhập cạnh tranh</h4>
+                                <p class="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">Lương cứng + Thưởng KPI + Thưởng nóng theo dự án/doanh số hàng tháng.</p>
                             </div>
                         </div>
-                        <div class="flex items-start gap-4 p-4 rounded-xl hover:bg-white/5 transition-colors">
-                            <div class="w-12 h-12 rounded-xl bg-red-500/20 text-red-400 flex items-center justify-center shrink-0 text-lg"><i class="fa-solid fa-gift"></i></div>
+                        <div class="flex items-start gap-4 p-4 rounded-xl hover:bg-white/40 dark:hover:bg-white/5 transition-colors">
+                            <div class="w-12 h-12 rounded-xl bg-red-500/10 dark:bg-red-500/20 text-red-600 dark:text-red-400 flex items-center justify-center shrink-0 text-lg"><i class="fa-solid fa-gift"></i></div>
                             <div>
-                                <h4 class="text-white font-bold mb-1">Thưởng Lễ, Tết</h4>
-                                <p class="text-xs text-gray-400 leading-relaxed">Thưởng tháng lương 13, lì xì Tết, quà sinh nhật, thưởng các ngày lễ lớn.</p>
+                                <h4 class="text-gray-900 dark:text-white font-bold mb-1">Thưởng Lễ, Tết</h4>
+                                <p class="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">Thưởng tháng lương 13, lì xì Tết, quà sinh nhật, thưởng các ngày lễ lớn.</p>
                             </div>
                         </div>
-                        <div class="flex items-start gap-4 p-4 rounded-xl hover:bg-white/5 transition-colors">
-                            <div class="w-12 h-12 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center shrink-0 text-lg"><i class="fa-solid fa-plane-departure"></i></div>
+                        <div class="flex items-start gap-4 p-4 rounded-xl hover:bg-white/40 dark:hover:bg-white/5 transition-colors">
+                            <div class="w-12 h-12 rounded-xl bg-blue-500/10 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400 flex items-center justify-center shrink-0 text-lg"><i class="fa-solid fa-plane-departure"></i></div>
                             <div>
-                                <h4 class="text-white font-bold mb-1">Teambuilding & Du lịch</h4>
-                                <p class="text-xs text-gray-400 leading-relaxed">Du lịch nghỉ dưỡng hàng năm, các hoạt động teambuilding gắn kết nội bộ sôi nổi.</p>
+                                <h4 class="text-gray-900 dark:text-white font-bold mb-1">Teambuilding & Du lịch</h4>
+                                <p class="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">Du lịch nghỉ dưỡng hàng năm, các hoạt động teambuilding gắn kết nội bộ sôi nổi.</p>
                             </div>
                         </div>
-                        <div class="flex items-start gap-4 p-4 rounded-xl hover:bg-white/5 transition-colors">
-                            <div class="w-12 h-12 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center shrink-0 text-lg"><i class="fa-solid fa-graduation-cap"></i></div>
+                        <div class="flex items-start gap-4 p-4 rounded-xl hover:bg-white/40 dark:hover:bg-white/5 transition-colors">
+                            <div class="w-12 h-12 rounded-xl bg-purple-500/10 dark:bg-purple-500/20 text-purple-600 dark:text-purple-400 flex items-center justify-center shrink-0 text-lg"><i class="fa-solid fa-graduation-cap"></i></div>
                             <div>
-                                <h4 class="text-white font-bold mb-1">Đào tạo chuyên sâu</h4>
-                                <p class="text-xs text-gray-400 leading-relaxed">Được training trực tiếp 1:1 về E-commerce, Marketing, Design và Kỹ năng mềm.</p>
+                                <h4 class="text-gray-900 dark:text-white font-bold mb-1">Đào tạo chuyên sâu</h4>
+                                <p class="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">Được training trực tiếp 1:1 về E-commerce, Marketing, Design và Kỹ năng mềm.</p>
                             </div>
                         </div>
                     </div>
@@ -459,26 +524,26 @@
     </section>
 
     <!-- Testimonials Section -->
-    <section id="testimonials" class="py-16 md:py-24 bg-cnmed-dark relative">
+    <section id="testimonials" class="py-16 md:py-24 bg-white dark:bg-cnmed-dark relative transition-colors duration-300">
         <div class="container mx-auto px-4 md:px-6">
             <div class="text-center mb-16" data-aos="fade-up">
                 <span class="text-cnmed-accent font-bold uppercase tracking-wider text-xs md:text-sm">Testimonials</span>
-                <h2 class="text-3xl md:text-5xl font-bold text-white mt-2 mb-4">Mọi Người Nói Gì Về CNMED?</h2>
-                <p class="text-gray-400">Niềm tin được xây dựng từ những chia sẻ chân thực nhất của Đối tác & Đội ngũ nhân sự.</p>
+                <h2 class="text-3xl md:text-5xl font-bold text-gray-900 dark:text-white mt-2 mb-4">Mọi Người Nói Gì Về CNMED?</h2>
+                <p class="text-gray-600 dark:text-gray-400">Niềm tin được xây dựng từ những chia sẻ chân thực nhất của Đối tác & Đội ngũ nhân sự.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Testimonial 1 -->
                 <div class="glass-card p-8 rounded-2xl relative" data-aos="fade-up" data-aos-delay="0">
                     <i class="fa-solid fa-quote-left text-4xl text-cnmed-accent/30 absolute top-6 left-6"></i>
-                    <p class="text-gray-300 text-sm leading-relaxed mb-6 mt-8 italic">
+                    <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-6 mt-8 italic">
                         "Hợp tác với CNMED giúp doanh thu của tôi tăng trưởng vượt bậc trên nền tảng Etsy. Đội ngũ support tại Đà Nẵng cực kỳ nhiệt tình và am hiểu thị trường US."
                     </p>
-                    <div class="flex items-center gap-4 border-t border-white/5 pt-4">
+                    <div class="flex items-center gap-4 border-t border-gray-200 dark:border-white/5 pt-4">
                         <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Partner" class="w-12 h-12 rounded-full border-2 border-cnmed-accent">
                         <div>
-                            <h4 class="text-white font-bold text-sm">Anh Tuấn Minh</h4>
-                            <p class="text-xs text-gray-400">Đối tác Seller - Đà Nẵng</p>
+                            <h4 class="text-gray-900 dark:text-white font-bold text-sm">Anh Tuấn Minh</h4>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">Đối tác Seller - Đà Nẵng</p>
                         </div>
                     </div>
                 </div>
@@ -486,14 +551,14 @@
                 <!-- Testimonial 2 -->
                 <div class="glass-card p-8 rounded-2xl relative border-cnmed-accent/40 bg-cnmed-accent/5" data-aos="fade-up" data-aos-delay="100">
                     <i class="fa-solid fa-quote-left text-4xl text-cnmed-accent/30 absolute top-6 left-6"></i>
-                    <p class="text-gray-300 text-sm leading-relaxed mb-6 mt-8 italic">
+                    <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-6 mt-8 italic">
                         "Môi trường làm việc tại CNMED rất mở, Sếp luôn lắng nghe và tạo điều kiện cho nhân sự thử nghiệm ý tưởng mới. Chế độ đãi ngộ thực sự cạnh tranh so với mặt bằng chung."
                     </p>
-                    <div class="flex items-center gap-4 border-t border-white/5 pt-4">
+                    <div class="flex items-center gap-4 border-t border-gray-200 dark:border-white/5 pt-4">
                         <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Employee" class="w-12 h-12 rounded-full border-2 border-white">
                         <div>
-                            <h4 class="text-white font-bold text-sm">Chị Lan Hương</h4>
-                            <p class="text-xs text-gray-400">Content Leader - CN Nghệ An</p>
+                            <h4 class="text-gray-900 dark:text-white font-bold text-sm">Chị Lan Hương</h4>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">Content Leader - CN Nghệ An</p>
                         </div>
                     </div>
                 </div>
@@ -501,14 +566,14 @@
                 <!-- Testimonial 3 -->
                 <div class="glass-card p-8 rounded-2xl relative" data-aos="fade-up" data-aos-delay="200">
                     <i class="fa-solid fa-quote-left text-4xl text-cnmed-accent/30 absolute top-6 left-6"></i>
-                    <p class="text-gray-300 text-sm leading-relaxed mb-6 mt-8 italic">
+                    <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-6 mt-8 italic">
                         "Hệ thống phân phối Y tế của CNMED tại Đồng Nai rất chuyên nghiệp, hàng hóa luôn đảm bảo chất lượng và tiến độ giao hàng nhanh chóng."
                     </p>
-                    <div class="flex items-center gap-4 border-t border-white/5 pt-4">
+                    <div class="flex items-center gap-4 border-t border-gray-200 dark:border-white/5 pt-4">
                         <img src="https://randomuser.me/api/portraits/men/86.jpg" alt="Partner" class="w-12 h-12 rounded-full border-2 border-cnmed-accent">
                         <div>
-                            <h4 class="text-white font-bold text-sm">BS. Hoàng Nam</h4>
-                            <p class="text-xs text-gray-400">Đối tác Y Tế - Đồng Nai</p>
+                            <h4 class="text-gray-900 dark:text-white font-bold text-sm">BS. Hoàng Nam</h4>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">Đối tác Y Tế - Đồng Nai</p>
                         </div>
                     </div>
                 </div>
@@ -517,90 +582,90 @@
     </section>
 
     <!-- Hiring Process Section -->
-    <section class="py-16 md:py-24 bg-cnmed-dark/50 border-t border-white/5">
+    <section class="py-16 md:py-24 bg-gray-50 dark:bg-cnmed-dark/50 border-t border-gray-200 dark:border-white/5 transition-colors duration-300">
         <div class="container mx-auto px-4 md:px-6">
             <div class="text-center mb-12 md:mb-16" data-aos="fade-up">
-                <h2 class="text-3xl font-bold text-white mb-4">Quy Trình Tuyển Dụng</h2>
-                <p class="text-gray-400">Minh bạch - Nhanh chóng - Chuyên nghiệp</p>
+                <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">Quy Trình Tuyển Dụng</h2>
+                <p class="text-gray-600 dark:text-gray-400">Minh bạch - Nhanh chóng - Chuyên nghiệp</p>
             </div>
 
             <!-- Wrapper for Timeline -->
             <div class="relative grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-4 step-line step-line-mobile max-w-4xl mx-auto md:max-w-none" data-aos="fade-up">
                 <!-- Step 1 -->
-                <div class="flex flex-col items-center md:block text-center relative z-10 group bg-cnmed-dark md:bg-transparent p-4 md:p-0 rounded-xl border border-white/5 md:border-none">
-                    <div class="w-12 h-12 bg-cnmed-dark border-2 border-cnmed-accent text-white rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-cnmed-accent group-hover:scale-110 transition-all font-bold text-lg shadow-[0_0_15px_rgba(124,58,237,0.3)]">1</div>
-                    <h3 class="text-white font-bold mb-2 text-lg">Ứng tuyển</h3>
-                    <p class="text-sm text-gray-400">Gửi CV qua Email hoặc Fanpage chính thức</p>
+                <div class="flex flex-col items-center md:block text-center relative z-10 group bg-gray-50 dark:bg-cnmed-dark md:bg-transparent p-4 md:p-0 rounded-xl border border-gray-200 dark:border-white/5 md:border-none">
+                    <div class="w-12 h-12 bg-white dark:bg-cnmed-dark border-2 border-cnmed-accent text-cnmed-accent dark:text-white rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-cnmed-accent group-hover:text-white group-hover:scale-110 transition-all font-bold text-lg shadow-[0_0_15px_rgba(124,58,237,0.3)]">1</div>
+                    <h3 class="text-gray-900 dark:text-white font-bold mb-2 text-lg">Ứng tuyển</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">Gửi CV qua Email hoặc Fanpage chính thức</p>
                 </div>
                 <!-- Step 2 -->
-                <div class="flex flex-col items-center md:block text-center relative z-10 group bg-cnmed-dark md:bg-transparent p-4 md:p-0 rounded-xl border border-white/5 md:border-none">
-                    <div class="w-12 h-12 bg-cnmed-dark border-2 border-cnmed-accent text-white rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-cnmed-accent group-hover:scale-110 transition-all font-bold text-lg shadow-[0_0_15px_rgba(124,58,237,0.3)]">2</div>
-                    <h3 class="text-white font-bold mb-2 text-lg">Phỏng vấn</h3>
-                    <p class="text-sm text-gray-400">Trao đổi trực tiếp về năng lực & định hướng</p>
+                <div class="flex flex-col items-center md:block text-center relative z-10 group bg-gray-50 dark:bg-cnmed-dark md:bg-transparent p-4 md:p-0 rounded-xl border border-gray-200 dark:border-white/5 md:border-none">
+                    <div class="w-12 h-12 bg-white dark:bg-cnmed-dark border-2 border-cnmed-accent text-cnmed-accent dark:text-white rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-cnmed-accent group-hover:text-white group-hover:scale-110 transition-all font-bold text-lg shadow-[0_0_15px_rgba(124,58,237,0.3)]">2</div>
+                    <h3 class="text-gray-900 dark:text-white font-bold mb-2 text-lg">Phỏng vấn</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">Trao đổi trực tiếp về năng lực & định hướng</p>
                 </div>
                 <!-- Step 3 -->
-                <div class="flex flex-col items-center md:block text-center relative z-10 group bg-cnmed-dark md:bg-transparent p-4 md:p-0 rounded-xl border border-white/5 md:border-none">
-                    <div class="w-12 h-12 bg-cnmed-dark border-2 border-cnmed-accent text-white rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-cnmed-accent group-hover:scale-110 transition-all font-bold text-lg shadow-[0_0_15px_rgba(124,58,237,0.3)]">3</div>
-                    <h3 class="text-white font-bold mb-2 text-lg">Thử việc</h3>
-                    <p class="text-sm text-gray-400">Làm quen công việc & văn hóa (1-2 tháng)</p>
+                <div class="flex flex-col items-center md:block text-center relative z-10 group bg-gray-50 dark:bg-cnmed-dark md:bg-transparent p-4 md:p-0 rounded-xl border border-gray-200 dark:border-white/5 md:border-none">
+                    <div class="w-12 h-12 bg-white dark:bg-cnmed-dark border-2 border-cnmed-accent text-cnmed-accent dark:text-white rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-cnmed-accent group-hover:text-white group-hover:scale-110 transition-all font-bold text-lg shadow-[0_0_15px_rgba(124,58,237,0.3)]">3</div>
+                    <h3 class="text-gray-900 dark:text-white font-bold mb-2 text-lg">Thử việc</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">Làm quen công việc & văn hóa (1-2 tháng)</p>
                 </div>
                 <!-- Step 4 -->
-                <div class="flex flex-col items-center md:block text-center relative z-10 group bg-cnmed-dark md:bg-transparent p-4 md:p-0 rounded-xl border border-white/5 md:border-none">
-                    <div class="w-12 h-12 bg-cnmed-dark border-2 border-cnmed-accent text-white rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-cnmed-accent group-hover:scale-110 transition-all font-bold text-lg shadow-[0_0_15px_rgba(124,58,237,0.3)]">4</div>
-                    <h3 class="text-white font-bold mb-2 text-lg">Chính thức</h3>
-                    <p class="text-sm text-gray-400">Ký HĐLĐ và trở thành thành viên CNMED</p>
+                <div class="flex flex-col items-center md:block text-center relative z-10 group bg-gray-50 dark:bg-cnmed-dark md:bg-transparent p-4 md:p-0 rounded-xl border border-gray-200 dark:border-white/5 md:border-none">
+                    <div class="w-12 h-12 bg-white dark:bg-cnmed-dark border-2 border-cnmed-accent text-cnmed-accent dark:text-white rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-cnmed-accent group-hover:text-white group-hover:scale-110 transition-all font-bold text-lg shadow-[0_0_15px_rgba(124,58,237,0.3)]">4</div>
+                    <h3 class="text-gray-900 dark:text-white font-bold mb-2 text-lg">Chính thức</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">Ký HĐLĐ và trở thành thành viên CNMED</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Recruitment Section -->
-    <section id="recruitment" class="py-16 md:py-24 bg-gradient-to-b from-transparent to-cnmed-primary/10">
+    <section id="recruitment" class="py-16 md:py-24 bg-gradient-to-b from-transparent to-cnmed-primary/5 dark:to-cnmed-primary/10 transition-colors duration-300">
         <div class="container mx-auto px-4 md:px-6">
             <div class="flex flex-col lg:flex-row gap-12 items-start lg:items-center">
                 <!-- Left Content -->
                 <div class="lg:w-1/2 w-full" data-aos="fade-right">
                     <span class="text-cnmed-accent font-bold uppercase tracking-wider text-xs md:text-sm">Cơ hội nghề nghiệp</span>
-                    <h2 class="text-3xl md:text-5xl font-bold text-white mt-2 mb-6">Tuyển dụng <br><span class="text-cnmed-accent">Chi nhánh Đà Nẵng</span></h2>
-                    <p class="text-gray-300 mb-8 leading-relaxed text-sm md:text-base">
+                    <h2 class="text-3xl md:text-5xl font-bold text-gray-900 dark:text-white mt-2 mb-6">Tuyển dụng <br><span class="text-cnmed-accent">Chi nhánh Đà Nẵng</span></h2>
+                    <p class="text-gray-600 dark:text-gray-300 mb-8 leading-relaxed text-sm md:text-base">
                         Chúng tôi đang tìm kiếm những mảnh ghép tài năng để cùng chinh phục thị trường POD tại Mỹ. Nếu bạn đam mê E-commerce quốc tế và muốn thu nhập không giới hạn, CNMED Đà Nẵng là nơi dành cho bạn.
                     </p>
                     
                     <div class="space-y-4">
-                        <div class="bg-white/5 border border-white/10 rounded-xl p-5 hover:bg-white/10 transition-all cursor-pointer group">
+                        <div class="bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl p-5 hover:bg-gray-50 dark:hover:bg-white/10 transition-all cursor-pointer group shadow-sm dark:shadow-none">
                             <div class="flex items-start justify-between mb-2">
                                 <div class="flex items-center gap-3">
-                                    <div class="w-10 h-10 rounded-full bg-green-500/20 text-green-400 flex items-center justify-center group-hover:bg-green-500 group-hover:text-white transition-colors">
+                                    <div class="w-10 h-10 rounded-full bg-green-500/10 dark:bg-green-500/20 text-green-600 dark:text-green-400 flex items-center justify-center group-hover:bg-green-500 group-hover:text-white transition-colors">
                                         <i class="fa-solid fa-dollar-sign"></i>
                                     </div>
                                     <div>
-                                        <h3 class="text-lg font-bold text-white group-hover:text-green-400 transition-colors">Seller POD (Etsy)</h3>
-                                        <span class="text-[10px] text-white bg-green-600/50 px-2 py-0.5 rounded uppercase tracking-wide">Hot</span>
+                                        <h3 class="text-lg font-bold text-gray-900 dark:text-white group-hover:text-green-500 dark:group-hover:text-green-400 transition-colors">Seller POD (Etsy)</h3>
+                                        <span class="text-[10px] text-white bg-green-500/90 dark:bg-green-600/50 px-2 py-0.5 rounded uppercase tracking-wide">Hot</span>
                                     </div>
                                 </div>
-                                <span class="text-xs text-gray-400 bg-white/5 px-3 py-1 rounded-full">Đà Nẵng</span>
+                                <span class="text-xs text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-white/5 px-3 py-1 rounded-full">Đà Nẵng</span>
                             </div>
-                            <ul class="text-gray-400 text-sm ml-14 list-disc space-y-1">
+                            <ul class="text-gray-600 dark:text-gray-400 text-sm ml-14 list-disc space-y-1">
                                 <li>Kinh nghiệm tối thiểu 6 tháng.</li>
                                 <li>Am hiểu thị trường US, kỹ năng research sản phẩm.</li>
-                                <li><strong class="text-gray-300">Thu nhập:</strong> Lương cứng + % Hoa hồng cao.</li>
+                                <li><strong class="text-gray-800 dark:text-gray-300">Thu nhập:</strong> Lương cứng + % Hoa hồng cao.</li>
                             </ul>
                         </div>
 
-                        <div class="bg-white/5 border border-white/10 rounded-xl p-5 hover:bg-white/10 transition-all cursor-pointer group">
+                        <div class="bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl p-5 hover:bg-gray-50 dark:hover:bg-white/10 transition-all cursor-pointer group shadow-sm dark:shadow-none">
                             <div class="flex items-start justify-between mb-2">
                                 <div class="flex items-center gap-3">
-                                    <div class="w-10 h-10 rounded-full bg-pink-500/20 text-pink-400 flex items-center justify-center group-hover:bg-pink-500 group-hover:text-white transition-colors">
+                                    <div class="w-10 h-10 rounded-full bg-pink-500/10 dark:bg-pink-500/20 text-pink-600 dark:text-pink-400 flex items-center justify-center group-hover:bg-pink-500 group-hover:text-white transition-colors">
                                         <i class="fa-solid fa-palette"></i>
                                     </div>
                                     <div>
-                                        <h3 class="text-lg font-bold text-white group-hover:text-pink-400 transition-colors">Designer POD</h3>
-                                        <span class="text-[10px] text-white bg-pink-600/50 px-2 py-0.5 rounded uppercase tracking-wide">Creative</span>
+                                        <h3 class="text-lg font-bold text-gray-900 dark:text-white group-hover:text-pink-500 dark:group-hover:text-pink-400 transition-colors">Designer POD</h3>
+                                        <span class="text-[10px] text-white bg-pink-500/90 dark:bg-pink-600/50 px-2 py-0.5 rounded uppercase tracking-wide">Creative</span>
                                     </div>
                                 </div>
-                                <span class="text-xs text-gray-400 bg-white/5 px-3 py-1 rounded-full">Đà Nẵng</span>
+                                <span class="text-xs text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-white/5 px-3 py-1 rounded-full">Đà Nẵng</span>
                             </div>
-                            <ul class="text-gray-400 text-sm ml-14 list-disc space-y-1">
+                            <ul class="text-gray-600 dark:text-gray-400 text-sm ml-14 list-disc space-y-1">
                                 <li>Kinh nghiệm 1 năm trở lên.</li>
                                 <li>Thành thạo Ps, Ai. Có tư duy thẩm mỹ tốt.</li>
                                 <li>Môi trường sáng tạo, tôn trọng phong cách cá nhân.</li>
@@ -611,21 +676,21 @@
 
                 <!-- Right CTA -->
                 <div class="lg:w-1/2 w-full mt-8 lg:mt-0" data-aos="fade-left">
-                    <div class="glass-card p-6 md:p-10 rounded-2xl text-center border border-cnmed-accent/50 shadow-2xl shadow-purple-900/50 relative overflow-hidden">
-                        <div class="absolute inset-0 bg-gradient-to-br from-cnmed-accent/20 to-transparent blur-xl"></div>
+                    <div class="glass-card p-6 md:p-10 rounded-2xl text-center border border-cnmed-accent/50 shadow-2xl shadow-purple-500/20 dark:shadow-purple-900/50 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-br from-cnmed-accent/10 dark:from-cnmed-accent/20 to-transparent blur-xl"></div>
                         <div class="relative z-10">
-                            <div class="w-20 h-20 bg-white text-cnmed-primary rounded-full flex items-center justify-center text-3xl mx-auto mb-6 shadow-lg animate-bounce">
+                            <div class="w-20 h-20 bg-cnmed-primary dark:bg-white text-white dark:text-cnmed-primary rounded-full flex items-center justify-center text-3xl mx-auto mb-6 shadow-lg animate-bounce">
                                 <i class="fa-solid fa-paper-plane"></i>
                             </div>
-                            <h3 class="text-2xl font-bold text-white mb-2">Sẵn sàng thử thách?</h3>
-                            <p class="text-gray-300 mb-8 text-sm">Gửi CV ngay hôm nay để trở thành một phần của CNMED.</p>
+                            <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Sẵn sàng thử thách?</h3>
+                            <p class="text-gray-600 dark:text-gray-300 mb-8 text-sm">Gửi CV ngay hôm nay để trở thành một phần của CNMED.</p>
                             
-                            <a href="mailto:tuyendung@cnmed.com" class="block w-full py-4 bg-white text-cnmed-primary font-bold rounded-xl hover:bg-gray-100 transition-all mb-4 text-lg shadow-lg transform hover:-translate-y-1">
+                            <a href="mailto:tuyendung@cnmed.com" class="block w-full py-4 bg-cnmed-primary dark:bg-white text-white dark:text-cnmed-primary font-bold rounded-xl hover:bg-gray-800 dark:hover:bg-gray-100 transition-all mb-4 text-lg shadow-lg transform hover:-translate-y-1">
                                 <i class="fa-solid fa-envelope mr-2"></i> tuyendung@cnmed.com
                             </a>
                             
                             <div class="text-sm text-gray-500 mt-4">
-                                Hoặc liên hệ qua <a href="https://www.facebook.com/profile.php?id=61551435188303" target="_blank" class="text-cnmed-accent hover:text-white transition-colors underline decoration-dotted">Facebook CNMED</a>
+                                Hoặc liên hệ qua <a href="https://www.facebook.com/profile.php?id=61551435188303" target="_blank" class="text-cnmed-accent hover:text-gray-900 dark:hover:text-white transition-colors underline decoration-dotted">Facebook CNMED</a>
                             </div>
                         </div>
                     </div>
@@ -635,22 +700,22 @@
     </section>
 
     <!-- Footer -->
-    <footer id="contact" class="pt-16 pb-8 bg-black/60 border-t border-white/5 backdrop-blur-md">
+    <footer id="contact" class="pt-16 pb-8 bg-gray-100 dark:bg-black/60 border-t border-gray-200 dark:border-white/5 backdrop-blur-md transition-colors duration-300">
         <div class="container mx-auto px-4 md:px-6">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
                 <!-- Info -->
                 <div class="col-span-1 md:col-span-1">
-                    <a href="#" class="text-2xl font-bold text-white flex items-center gap-2 mb-4">
+                    <a href="#" class="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2 mb-4">
                         <span class="text-cnmed-accent"><i class="fa-solid fa-cube"></i></span> CNMED
                     </a>
-                    <p class="text-gray-400 mb-6 text-sm leading-relaxed">
+                    <p class="text-gray-600 dark:text-gray-400 mb-6 text-sm leading-relaxed">
                         Được thành lập từ năm 2024, CNMED không ngừng mở rộng quy mô với sứ mệnh mang lại giá trị thực cho khách hàng trong và ngoài nước.
                     </p>
                     <div class="flex gap-4">
-                        <a href="https://www.facebook.com/profile.php?id=61551435188303" target="_blank" class="w-10 h-10 rounded-full bg-white/5 hover:bg-blue-600 flex items-center justify-center text-white transition-all border border-white/10 hover:border-blue-500">
+                        <a href="https://www.facebook.com/profile.php?id=61551435188303" target="_blank" class="w-10 h-10 rounded-full bg-white dark:bg-white/5 hover:bg-blue-600 dark:hover:bg-blue-600 flex items-center justify-center text-gray-600 dark:text-white hover:text-white transition-all border border-gray-300 dark:border-white/10 hover:border-blue-500">
                             <i class="fa-brands fa-facebook-f"></i>
                         </a>
-                        <a href="mailto:tuyendung@cnmed.com" class="w-10 h-10 rounded-full bg-white/5 hover:bg-red-600 flex items-center justify-center text-white transition-all border border-white/10 hover:border-red-500">
+                        <a href="mailto:tuyendung@cnmed.com" class="w-10 h-10 rounded-full bg-white dark:bg-white/5 hover:bg-red-600 dark:hover:bg-red-600 flex items-center justify-center text-gray-600 dark:text-white hover:text-white transition-all border border-gray-300 dark:border-white/10 hover:border-red-500">
                             <i class="fa-solid fa-envelope"></i>
                         </a>
                     </div>
@@ -659,32 +724,32 @@
                 <!-- Locations List -->
                 <div class="col-span-1 md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-8">
                     <div>
-                        <h4 class="text-white font-bold mb-6 uppercase text-xs tracking-widest border-l-2 border-cnmed-accent pl-3">Miền Bắc & Trung</h4>
-                        <ul class="space-y-6 text-sm text-gray-400">
+                        <h4 class="text-gray-900 dark:text-white font-bold mb-6 uppercase text-xs tracking-widest border-l-2 border-cnmed-accent pl-3">Miền Bắc & Trung</h4>
+                        <ul class="space-y-6 text-sm text-gray-600 dark:text-gray-400">
                             <li class="group">
-                                <strong class="text-white block mb-1 group-hover:text-cnmed-accent transition-colors">Hà Nội (Trụ sở chính)</strong>
-                                <span class="block mb-1"><i class="fa-solid fa-location-dot w-5 text-gray-500"></i> 100 Nguyễn Trãi</span>
-                                <a href="tel:0987987077" class="block text-cnmed-accent hover:text-white transition-colors"><i class="fa-solid fa-phone w-5"></i> 0987.987.077</a>
+                                <strong class="text-gray-800 dark:text-white block mb-1 group-hover:text-cnmed-accent transition-colors">Hà Nội (Trụ sở chính)</strong>
+                                <span class="block mb-1"><i class="fa-solid fa-location-dot w-5 text-gray-400 dark:text-gray-500"></i> 100 Nguyễn Trãi</span>
+                                <a href="tel:0987987077" class="block text-cnmed-accent hover:text-gray-900 dark:hover:text-white transition-colors"><i class="fa-solid fa-phone w-5"></i> 0987.987.077</a>
                             </li>
                             <li class="group">
-                                <strong class="text-white block mb-1 group-hover:text-cnmed-accent transition-colors">Đà Nẵng</strong>
-                                <span class="block mb-1"><i class="fa-solid fa-location-dot w-5 text-gray-500"></i> 222 Nguyễn Hữu Thọ</span>
-                                <a href="tel:0945272339" class="block text-cnmed-accent hover:text-white transition-colors"><i class="fa-solid fa-phone w-5"></i> 0945.272.339</a>
+                                <strong class="text-gray-800 dark:text-white block mb-1 group-hover:text-cnmed-accent transition-colors">Đà Nẵng</strong>
+                                <span class="block mb-1"><i class="fa-solid fa-location-dot w-5 text-gray-400 dark:text-gray-500"></i> 222 Nguyễn Hữu Thọ</span>
+                                <a href="tel:0945272339" class="block text-cnmed-accent hover:text-gray-900 dark:hover:text-white transition-colors"><i class="fa-solid fa-phone w-5"></i> 0945.272.339</a>
                             </li>
                             <li class="group">
-                                <strong class="text-white block mb-1 group-hover:text-cnmed-accent transition-colors">Nghệ An</strong>
-                                <span class="block mb-1"><i class="fa-solid fa-location-dot w-5 text-gray-500"></i> 298 Nguyễn Văn Cừ, TP. Vinh</span>
-                                <a href="tel:0934702666" class="block text-cnmed-accent hover:text-white transition-colors"><i class="fa-solid fa-phone w-5"></i> 0934.702.666</a>
+                                <strong class="text-gray-800 dark:text-white block mb-1 group-hover:text-cnmed-accent transition-colors">Nghệ An</strong>
+                                <span class="block mb-1"><i class="fa-solid fa-location-dot w-5 text-gray-400 dark:text-gray-500"></i> 298 Nguyễn Văn Cừ, TP. Vinh</span>
+                                <a href="tel:0934702666" class="block text-cnmed-accent hover:text-gray-900 dark:hover:text-white transition-colors"><i class="fa-solid fa-phone w-5"></i> 0934.702.666</a>
                             </li>
                         </ul>
                     </div>
                     <div>
-                        <h4 class="text-white font-bold mb-6 uppercase text-xs tracking-widest border-l-2 border-cnmed-accent pl-3">Miền Nam</h4>
-                        <ul class="space-y-6 text-sm text-gray-400">
+                        <h4 class="text-gray-900 dark:text-white font-bold mb-6 uppercase text-xs tracking-widest border-l-2 border-cnmed-accent pl-3">Miền Nam</h4>
+                        <ul class="space-y-6 text-sm text-gray-600 dark:text-gray-400">
                             <li class="group">
-                                <strong class="text-white block mb-1 group-hover:text-cnmed-accent transition-colors">Đồng Nai</strong>
-                                <span class="block mb-1"><i class="fa-solid fa-location-dot w-5 text-gray-500"></i> 938 Trần Cao Vân</span>
-                                <a href="tel:0989720202" class="block text-cnmed-accent hover:text-white transition-colors"><i class="fa-solid fa-phone w-5"></i> 0989.720.202</a>
+                                <strong class="text-gray-800 dark:text-white block mb-1 group-hover:text-cnmed-accent transition-colors">Đồng Nai</strong>
+                                <span class="block mb-1"><i class="fa-solid fa-location-dot w-5 text-gray-400 dark:text-gray-500"></i> 938 Trần Cao Vân</span>
+                                <a href="tel:0989720202" class="block text-cnmed-accent hover:text-gray-900 dark:hover:text-white transition-colors"><i class="fa-solid fa-phone w-5"></i> 0989.720.202</a>
                             </li>
                         </ul>
                     </div>
@@ -692,24 +757,24 @@
                 
                 <!-- Contact Short -->
                 <div class="col-span-1">
-                    <h4 class="text-white font-bold mb-6 uppercase text-xs tracking-widest border-l-2 border-cnmed-accent pl-3">Thông tin chung</h4>
-                    <ul class="space-y-4 text-sm text-gray-400">
+                    <h4 class="text-gray-900 dark:text-white font-bold mb-6 uppercase text-xs tracking-widest border-l-2 border-cnmed-accent pl-3">Thông tin chung</h4>
+                    <ul class="space-y-4 text-sm text-gray-600 dark:text-gray-400">
                         <li class="flex items-center gap-2">
-                            <span class="w-8 h-8 rounded bg-white/5 flex items-center justify-center text-gray-400"><i class="fa-solid fa-envelope"></i></span>
-                            <a href="mailto:tuyendung@cnmed.com" class="hover:text-cnmed-accent text-white transition-colors">tuyendung@cnmed.com</a>
+                            <span class="w-8 h-8 rounded bg-gray-200 dark:bg-white/5 flex items-center justify-center text-gray-500 dark:text-gray-400"><i class="fa-solid fa-envelope"></i></span>
+                            <a href="mailto:tuyendung@cnmed.com" class="hover:text-cnmed-accent text-gray-700 dark:text-white transition-colors">tuyendung@cnmed.com</a>
                         </li>
                         <li class="flex items-center gap-2">
-                            <span class="w-8 h-8 rounded bg-white/5 flex items-center justify-center text-gray-400"><i class="fa-solid fa-calendar"></i></span>
-                            <span>Thành lập: <span class="text-white">2024</span></span>
+                            <span class="w-8 h-8 rounded bg-gray-200 dark:bg-white/5 flex items-center justify-center text-gray-500 dark:text-gray-400"><i class="fa-solid fa-calendar"></i></span>
+                            <span>Thành lập: <span class="text-gray-900 dark:text-white">2024</span></span>
                         </li>
                     </ul>
                 </div>
             </div>
 
-            <div class="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-600 text-sm gap-4">
+            <div class="border-t border-gray-200 dark:border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-500 dark:text-gray-600 text-sm gap-4">
                 <p>&copy; 2024 - 2026 CNMED Group. All rights reserved.</p>
                 <p class="flex items-center gap-2">
-                    Design by <span class="text-gray-500">CNMED Media Team</span>
+                    Design by <span class="text-gray-400 dark:text-gray-500">CNMED Media Team</span>
                 </p>
             </div>
         </div>
@@ -726,6 +791,24 @@
             easing: 'ease-out-cubic',
         });
 
+        // Theme Toggle Logic
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const mobileThemeToggleBtn = document.getElementById('mobile-theme-toggle');
+        
+        function toggleTheme() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.theme = 'light';
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.theme = 'dark';
+            }
+        }
+
+        themeToggleBtn.addEventListener('click', toggleTheme);
+        mobileThemeToggleBtn.addEventListener('click', toggleTheme);
+
+
         // Mobile Menu Toggle
         const btn = document.getElementById('mobile-menu-btn');
         const menu = document.getElementById('mobile-menu');
@@ -737,13 +820,17 @@
             isMenuOpen = !isMenuOpen;
             if (isMenuOpen) {
                 menu.classList.remove('hidden');
-                // Small delay to allow display:block to apply before opacity transition
                 setTimeout(() => {
                     menu.classList.remove('opacity-0', '-translate-y-5');
                 }, 10);
                 icon.classList.remove('fa-bars');
                 icon.classList.add('fa-xmark');
-                navbar.classList.add('bg-cnmed-dark'); // Solid background when menu open
+                // Force background in mobile menu mode if needed
+                if(document.documentElement.classList.contains('dark')){
+                     navbar.classList.add('bg-cnmed-dark');
+                } else {
+                     navbar.classList.add('bg-white');
+                }
             } else {
                 menu.classList.add('opacity-0', '-translate-y-5');
                 setTimeout(() => {
@@ -751,9 +838,11 @@
                 }, 300);
                 icon.classList.remove('fa-xmark');
                 icon.classList.add('fa-bars');
-                if (window.scrollY <= 50) {
-                    navbar.classList.remove('bg-cnmed-dark');
-                }
+                
+                // Reset navbar bg
+                navbar.classList.remove('bg-cnmed-dark', 'bg-white');
+                // Re-trigger scroll check to restore correct background
+                window.dispatchEvent(new Event('scroll'));
             }
         }
 
@@ -761,13 +850,18 @@
 
         // Navbar Scroll Effect
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 20) {
-                navbar.classList.add('bg-cnmed-dark/90', 'shadow-lg', 'backdrop-blur-xl');
-                navbar.classList.remove('border-transparent');
-                navbar.classList.add('border-white/5');
-            } else {
-                if (!isMenuOpen) {
-                    navbar.classList.remove('bg-cnmed-dark/90', 'shadow-lg', 'backdrop-blur-xl', 'border-white/5');
+            // Only apply scroll effect if menu is closed
+            if (!isMenuOpen) {
+                if (window.scrollY > 20) {
+                    if (document.documentElement.classList.contains('dark')) {
+                        navbar.classList.add('bg-cnmed-dark/90', 'shadow-lg', 'backdrop-blur-xl', 'border-white/5');
+                        navbar.classList.remove('border-transparent');
+                    } else {
+                        navbar.classList.add('bg-white/90', 'shadow-lg', 'backdrop-blur-xl', 'border-gray-200');
+                        navbar.classList.remove('border-transparent');
+                    }
+                } else {
+                    navbar.classList.remove('bg-cnmed-dark/90', 'bg-white/90', 'shadow-lg', 'backdrop-blur-xl', 'border-white/5', 'border-gray-200');
                     navbar.classList.add('border-transparent');
                 }
             }
